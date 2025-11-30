@@ -1,0 +1,38 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            # Create directory if not exists (first run)
+            mkdir -p ~/discord-game
+            cd ~/discord-game
+            
+            # Initialize git if not exists (first run)
+            if [ ! -d ".git" ]; then
+              git init
+              git remote add origin https://github.com/${{ github.repository }}
+              git fetch
+              git checkout -t origin/main -f
+            else
+              git pull origin main
+            fi
+            
+            # Install dependencies and build
+            npm install
+            npm run build
+            
+            # Start/Restart Bot
+            pm2 restart discord-bot || pm2 start ecosystem.config.js

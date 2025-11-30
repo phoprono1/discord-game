@@ -1,0 +1,617 @@
+[
+    {
+        "name": "Phàm Nhân",
+        "req": 0,
+        "rate": 1.0
+    },
+    {
+        "name": "Luyện Khí Tầng 1",
+        "req": 100,
+        "rate": 0.95
+    },
+    {
+        "name": "Luyện Khí Tầng 2",
+        "req": 200,
+        "rate": 0.9
+    },
+    {
+        "name": "Luyện Khí Tầng 3",
+        "req": 400,
+        "rate": 0.85
+    },
+    {
+        "name": "Luyện Khí Tầng 4",
+        "req": 800,
+        "rate": 0.8
+    },
+    {
+        "name": "Luyện Khí Tầng 5",
+        "req": 1600,
+        "rate": 0.75
+    },
+    {
+        "name": "Luyện Khí Tầng 6",
+        "req": 3200,
+        "rate": 0.7
+    },
+    {
+        "name": "Luyện Khí Tầng 7",
+        "req": 6400,
+        "rate": 0.65
+    },
+    {
+        "name": "Luyện Khí Tầng 8",
+        "req": 12800,
+        "rate": 0.6
+    },
+    {
+        "name": "Luyện Khí Tầng 9",
+        "req": 25600,
+        "rate": 0.55
+    },
+    {
+        "name": "Luyện Khí Tầng 10 (Đại Viên Mãn)",
+        "req": 51200,
+        "rate": 0.5
+    },
+    {
+        "name": "Trúc Cơ Sơ Kỳ",
+        "req": 100000,
+        "rate": 0.45
+    },
+    {
+        "name": "Trúc Cơ Trung Kỳ",
+        "req": 200000,
+        "rate": 0.4
+    },
+    {
+        "name": "Trúc Cơ Hậu Kỳ",
+        "req": 400000,
+        "rate": 0.35
+    },
+    {
+        "name": "Trúc Cơ Viên Mãn",
+        "req": 800000,
+        "rate": 0.3
+    },
+    {
+        "name": "Trúc Cơ Đại Viên Mãn",
+        "req": 1600000,
+        "rate": 0.25
+    },
+    {
+        "name": "Kim Đan Sơ Kỳ",
+        "req": 3200000,
+        "rate": 0.2
+    },
+    {
+        "name": "Kim Đan Trung Kỳ",
+        "req": 6400000,
+        "rate": 0.18
+    },
+    {
+        "name": "Kim Đan Hậu Kỳ",
+        "req": 12800000,
+        "rate": 0.16
+    },
+    {
+        "name": "Kim Đan Viên Mãn",
+        "req": 25600000,
+        "rate": 0.14
+    },
+    {
+        "name": "Kim Đan Đại Viên Mãn",
+        "req": 51200000,
+        "rate": 0.12
+    },
+    {
+        "name": "Nguyên Anh Sơ Kỳ",
+        "req": 100000000,
+        "rate": 0.1
+    },
+    {
+        "name": "Nguyên Anh Trung Kỳ",
+        "req": 200000000,
+        "rate": 0.09
+    },
+    {
+        "name": "Nguyên Anh Hậu Kỳ",
+        "req": 400000000,
+        "rate": 0.08
+    },
+    {
+        "name": "Nguyên Anh Viên Mãn",
+        "req": 800000000,
+        "rate": 0.07
+    },
+    {
+        "name": "Nguyên Anh Đại Viên Mãn",
+        "req": 1600000000,
+        "rate": 0.06
+    },
+    {
+        "name": "Hóa Thần Sơ Kỳ",
+        "req": 3200000000,
+        "rate": 0.05
+    },
+    {
+        "name": "Hóa Thần Trung Kỳ",
+        "req": 6400000000,
+        "rate": 0.045
+    },
+    {
+        "name": "Hóa Thần Hậu Kỳ",
+        "req": 12800000000,
+        "rate": 0.04
+    },
+    {
+        "name": "Hóa Thần Viên Mãn",
+        "req": 25600000000,
+        "rate": 0.035
+    },
+    {
+        "name": "Hóa Thần Đại Viên Mãn",
+        "req": 51200000000,
+        "rate": 0.03
+    },
+    {
+        "name": "Luyện Hư Sơ Kỳ",
+        "req": 100000000000,
+        "rate": 0.025
+    },
+    {
+        "name": "Luyện Hư Trung Kỳ",
+        "req": 200000000000,
+        "rate": 0.022
+    },
+    {
+        "name": "Luyện Hư Hậu Kỳ",
+        "req": 400000000000,
+        "rate": 0.02
+    },
+    {
+        "name": "Luyện Hư Viên Mãn",
+        "req": 800000000000,
+        "rate": 0.018
+    },
+    {
+        "name": "Luyện Hư Đại Viên Mãn",
+        "req": 1600000000000,
+        "rate": 0.015
+    },
+    {
+        "name": "Hợp Thể Sơ Kỳ",
+        "req": 3200000000000,
+        "rate": 0.012
+    },
+    {
+        "name": "Hợp Thể Trung Kỳ",
+        "req": 6400000000000,
+        "rate": 0.01
+    },
+    {
+        "name": "Hợp Thể Hậu Kỳ",
+        "req": 12800000000000,
+        "rate": 0.009
+    },
+    {
+        "name": "Hợp Thể Viên Mãn",
+        "req": 25600000000000,
+        "rate": 0.008
+    },
+    {
+        "name": "Hợp Thể Đại Viên Mãn",
+        "req": 51200000000000,
+        "rate": 0.007
+    },
+    {
+        "name": "Đại Thừa Sơ Kỳ",
+        "req": 100000000000000,
+        "rate": 0.006
+    },
+    {
+        "name": "Đại Thừa Trung Kỳ",
+        "req": 200000000000000,
+        "rate": 0.0055
+    },
+    {
+        "name": "Đại Thừa Hậu Kỳ",
+        "req": 400000000000000,
+        "rate": 0.005
+    },
+    {
+        "name": "Đại Thừa Viên Mãn",
+        "req": 800000000000000,
+        "rate": 0.0045
+    },
+    {
+        "name": "Đại Thừa Đại Viên Mãn",
+        "req": 1600000000000000,
+        "rate": 0.004
+    },
+    {
+        "name": "Độ Kiếp Sơ Kỳ",
+        "req": 3200000000000000,
+        "rate": 0.0035
+    },
+    {
+        "name": "Độ Kiếp Trung Kỳ",
+        "req": 6400000000000000,
+        "rate": 0.003
+    },
+    {
+        "name": "Độ Kiếp Hậu Kỳ",
+        "req": 12800000000000000,
+        "rate": 0.0025
+    },
+    {
+        "name": "Độ Kiếp Viên Mãn",
+        "req": 25600000000000000,
+        "rate": 0.002
+    },
+    {
+        "name": "Độ Kiếp Đại Viên Mãn",
+        "req": 51200000000000000,
+        "rate": 0.0015
+    },
+    {
+        "name": "Bán Bộ Phi Thăng",
+        "req": 100000000000000000,
+        "rate": 0.001
+    },
+    {
+        "name": "Tàn Tiên Cảnh",
+        "req": 200000000000000000,
+        "rate": 0.0009
+    },
+    {
+        "name": "Chân Tiên Sơ Kỳ",
+        "req": 400000000000000000,
+        "rate": 0.0008
+    },
+    {
+        "name": "Chân Tiên Trung Kỳ",
+        "req": 800000000000000000,
+        "rate": 0.0007
+    },
+    {
+        "name": "Chân Tiên Hậu Kỳ",
+        "req": 1600000000000000000,
+        "rate": 0.0006
+    },
+    {
+        "name": "Chân Tiên Viên Mãn",
+        "req": 3200000000000000000,
+        "rate": 0.0005
+    },
+    {
+        "name": "Chân Tiên Đại Viên Mãn",
+        "req": 6400000000000000000,
+        "rate": 0.0004
+    },
+    {
+        "name": "Thiên Tiên Sơ Kỳ",
+        "req": 12000000000000000000,
+        "rate": 0.00035
+    },
+    {
+        "name": "Thiên Tiên Trung Kỳ",
+        "req": 24000000000000000000,
+        "rate": 0.0003
+    },
+    {
+        "name": "Thiên Tiên Hậu Kỳ",
+        "req": 48000000000000000000,
+        "rate": 0.00025
+    },
+    {
+        "name": "Thiên Tiên Viên Mãn",
+        "req": 96000000000000000000,
+        "rate": 0.0002
+    },
+    {
+        "name": "Thiên Tiên Đại Viên Mãn",
+        "req": 192000000000000000000,
+        "rate": 0.00015
+    },
+    {
+        "name": "Tiên Quân Sơ Kỳ",
+        "req": 384000000000000000000,
+        "rate": 0.00012
+    },
+    {
+        "name": "Tiên Quân Trung Kỳ",
+        "req": 768000000000000000000,
+        "rate": 0.0001
+    },
+    {
+        "name": "Tiên Quân Hậu Kỳ",
+        "req": 1500000000000000000000,
+        "rate": 9e-05
+    },
+    {
+        "name": "Tiên Quân Viên Mãn",
+        "req": 3000000000000000000000,
+        "rate": 8e-05
+    },
+    {
+        "name": "Tiên Quân Đại Viên Mãn",
+        "req": 6000000000000000000000,
+        "rate": 7e-05
+    },
+    {
+        "name": "Tiên Vương Sơ Kỳ",
+        "req": 12000000000000000000000,
+        "rate": 6e-05
+    },
+    {
+        "name": "Tiên Vương Trung Kỳ",
+        "req": 24000000000000000000000,
+        "rate": 5e-05
+    },
+    {
+        "name": "Tiên Vương Hậu Kỳ",
+        "req": 48000000000000000000000,
+        "rate": 4e-05
+    },
+    {
+        "name": "Tiên Vương Viên Mãn",
+        "req": 96000000000000000000000,
+        "rate": 3e-05
+    },
+    {
+        "name": "Tiên Vương Đại Viên Mãn",
+        "req": 192000000000000000000000,
+        "rate": 2e-05
+    },
+    {
+        "name": "Tiên Đế Sơ Kỳ",
+        "req": 384000000000000000000000,
+        "rate": 1.5e-05
+    },
+    {
+        "name": "Tiên Đế Trung Kỳ",
+        "req": 768000000000000000000000,
+        "rate": 1e-05
+    },
+    {
+        "name": "Tiên Đế Hậu Kỳ",
+        "req": 1.5e+24,
+        "rate": 9e-06
+    },
+    {
+        "name": "Tiên Đế Viên Mãn",
+        "req": 3e+24,
+        "rate": 8e-06
+    },
+    {
+        "name": "Tiên Đế Đại Viên Mãn",
+        "req": 6e+24,
+        "rate": 7e-06
+    },
+    {
+        "name": "Bán Bộ Đạo Tôn Cảnh",
+        "req": 1.2e+25,
+        "rate": 6e-06
+    },
+    {
+        "name": "Đạo Tôn Sơ Kỳ",
+        "req": 2.4e+25,
+        "rate": 5e-06
+    },
+    {
+        "name": "Đạo Tôn Trung Kỳ",
+        "req": 4.8e+25,
+        "rate": 4e-06
+    },
+    {
+        "name": "Đạo Tôn Hậu Kỳ",
+        "req": 9.6e+25,
+        "rate": 3e-06
+    },
+    {
+        "name": "Đạo Tôn Viên Mãn",
+        "req": 1.9e+26,
+        "rate": 2e-06
+    },
+    {
+        "name": "Đạo Tôn Đại Viên Mãn",
+        "req": 3.8e+26,
+        "rate": 1e-06
+    },
+    {
+        "name": "Bán Bộ Đạo Tổ Cảnh",
+        "req": 7.6e+26,
+        "rate": 9e-07
+    },
+    {
+        "name": "Đạo Tổ Sơ Kỳ",
+        "req": 1.5e+27,
+        "rate": 8e-07
+    },
+    {
+        "name": "Đạo Tổ Trung Kỳ",
+        "req": 3e+27,
+        "rate": 7e-07
+    },
+    {
+        "name": "Đạo Tổ Hậu Kỳ",
+        "req": 6e+27,
+        "rate": 6e-07
+    },
+    {
+        "name": "Đạo Tổ Viên Mãn",
+        "req": 1.2e+28,
+        "rate": 5e-07
+    },
+    {
+        "name": "Đạo Tổ Đại Viên Mãn",
+        "req": 2.4e+28,
+        "rate": 4e-07
+    },
+    {
+        "name": "Bán Bộ Vô Thượng Cảnh",
+        "req": 4.8e+28,
+        "rate": 3e-07
+    },
+    {
+        "name": "Vô Thượng Sơ Kỳ",
+        "req": 9.6e+28,
+        "rate": 2.5e-07
+    },
+    {
+        "name": "Vô Thượng Trung Kỳ",
+        "req": 1.9e+29,
+        "rate": 2e-07
+    },
+    {
+        "name": "Vô Thượng Hậu Kỳ",
+        "req": 3.8e+29,
+        "rate": 1.5e-07
+    },
+    {
+        "name": "Vô Thượng Viên Mãn",
+        "req": 7.6e+29,
+        "rate": 1e-07
+    },
+    {
+        "name": "Vô Thượng Đại Viên Mãn",
+        "req": 1.5e+30,
+        "rate": 9e-08
+    },
+    {
+        "name": "Bán Bộ Hỗn Độn Cảnh",
+        "req": 3e+30,
+        "rate": 8e-08
+    },
+    {
+        "name": "Hỗn Độn Sơ Kỳ",
+        "req": 6e+30,
+        "rate": 7e-08
+    },
+    {
+        "name": "Hỗn Độn Trung Kỳ",
+        "req": 1.2e+31,
+        "rate": 6e-08
+    },
+    {
+        "name": "Hỗn Độn Hậu Kỳ",
+        "req": 2.4e+31,
+        "rate": 5e-08
+    },
+    {
+        "name": "Hỗn Độn Viên Mãn",
+        "req": 4.8e+31,
+        "rate": 4e-08
+    },
+    {
+        "name": "Hỗn Độn Đại Viên Mãn",
+        "req": 9.6e+31,
+        "rate": 3e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Nhất Chuyển",
+        "req": 1.9e+32,
+        "rate": 2.5e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Nhị Chuyển",
+        "req": 3.8e+32,
+        "rate": 2e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Tam Chuyển",
+        "req": 7.6e+32,
+        "rate": 1.8e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Tứ Chuyển",
+        "req": 1.5e+33,
+        "rate": 1.6e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Ngũ Chuyển",
+        "req": 3e+33,
+        "rate": 1.4e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Lục Chuyển",
+        "req": 6e+33,
+        "rate": 1.2e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Thất Chuyển",
+        "req": 1.2e+34,
+        "rate": 1e-08
+    },
+    {
+        "name": "Thái Sơ Cảnh Bát Chuyển",
+        "req": 2.4e+34,
+        "rate": 8e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Cửu Chuyển",
+        "req": 4.8e+34,
+        "rate": 6e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đỉnh Phong",
+        "req": 9.6e+34,
+        "rate": 5e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Viên Mãn",
+        "req": 1.9e+35,
+        "rate": 4e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Lâm)",
+        "req": 3.8e+35,
+        "rate": 3e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Đấu)",
+        "req": 7.6e+35,
+        "rate": 2.5e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Giai)",
+        "req": 1.5e+36,
+        "rate": 2e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Hành)",
+        "req": 3e+36,
+        "rate": 1.8e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Binh)",
+        "req": 6e+36,
+        "rate": 1.6e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Giả)",
+        "req": 1.2e+37,
+        "rate": 1.4e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Tiền)",
+        "req": 2.4e+37,
+        "rate": 1.2e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Tổ)",
+        "req": 4.8e+37,
+        "rate": 1e-09
+    },
+    {
+        "name": "Thái Sơ Cảnh Đại Viên Mãn (Trớ)",
+        "req": 9.6e+37,
+        "rate": 8e-10
+    },
+    {
+        "name": "Nguyên Cảnh",
+        "req": 2e+38,
+        "rate": 1e-10
+    }
+]
