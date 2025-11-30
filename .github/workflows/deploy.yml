@@ -16,6 +16,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
+            # Load environment variables
+            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+            source ~/.nvm/nvm.sh 2>/dev/null || true
+            source ~/.profile 2>/dev/null || true
+            source ~/.bashrc 2>/dev/null || true
+
             # Create directory if not exists (first run)
             mkdir -p ~/discord-game
             cd ~/discord-game
