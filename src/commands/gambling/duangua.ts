@@ -97,7 +97,7 @@ async function duanguaLogic(
         if (winner !== -1) {
             embed.setTitle(`🏆 NGỰA SỐ ${winner} VỀ NHẤT! 🏆`);
             if (winner === horseChoice) {
-                const winAmount = betAmount * 5;
+                const winAmount = betAmount * 10;
                 db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(winAmount, userId);
                 embed.setColor(0x00FF00);
                 embed.addFields({ name: 'Kết quả', value: `🎉 Chúc mừng! Bạn đã thắng **${winAmount.toLocaleString()}** Xu!` });
