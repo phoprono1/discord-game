@@ -36,9 +36,14 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
     const chance = Math.random();
     const embed = new EmbedBuilder().setTimestamp();
 
+    // Realm Multiplier
+    const realmLevel = user.realm || 0;
+    const multiplier = 1 + (realmLevel * 0.5);
+
     if (chance < 0.15) {
         // BAD EVENT: Encounter Beast (Lose EXP)
-        const expLoss = Math.floor(Math.random() * 50) + 10;
+        const baseLoss = Math.floor(Math.random() * 50) + 10;
+        const expLoss = Math.floor(baseLoss * multiplier);
         let newExp = Math.max(0, user.exp - expLoss);
 
         db.prepare('UPDATE users SET exp = ? WHERE id = ?').run(newExp, userId);
@@ -46,11 +51,12 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('👹 GẶP YÊU THÚ!')
             .setDescription('Bạn vô tình đi lạc vào hang ổ Yêu Thú. May mắn chạy thoát nhưng kinh hồn bạt vía.')
             .setColor(0xFF0000) // Red
-            .addFields({ name: 'Hậu quả', value: `-${expLoss} EXP`, inline: true });
+            .addFields({ name: 'Hậu quả', value: `-${expLoss.toLocaleString()} EXP`, inline: true });
 
     } else if (chance < 0.30) {
         // BAD EVENT: Robbed (Lose Money)
-        const moneyLoss = Math.floor(Math.random() * 100) + 20;
+        const baseLoss = Math.floor(Math.random() * 100) + 20;
+        const moneyLoss = Math.floor(baseLoss * multiplier);
 
         // Deduct logic (Balance -> Bank)
         let remainingLoss = moneyLoss;
@@ -74,38 +80,44 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('💸 GẶP CƯỚP ĐƯỜNG!')
             .setDescription('Một toán cướp chặn đường trấn lột. "Của đi thay người"!')
             .setColor(0xFF0000) // Red
-            .addFields({ name: 'Mất', value: `-${moneyLoss} ${currencyName}`, inline: true });
+            .addFields({ name: 'Mất', value: `-${moneyLoss.toLocaleString()} ${currencyName}`, inline: true });
 
     } else if (chance < 0.45) {
         // NEUTRAL: Nothing
         embed.setTitle('🍃 KHÔNG CÓ GÌ')
+            // ... (unchanged)
             .setDescription('Bạn đi dạo một vòng nhưng không tìm thấy gì đặc biệt.')
             .setColor(0x808080); // Gray
 
     } else if (chance < 0.75) {
         // GOOD EVENT: Found Money
-        const moneyGain = Math.floor(Math.random() * 200) + 50;
+        const baseGain = Math.floor(Math.random() * 200) + 50;
+        const moneyGain = Math.floor(baseGain * multiplier);
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(moneyGain, userId);
 
         embed.setTitle('💰 NHẶT ĐƯỢC CỦA RƠI')
             .setDescription('Bạn tình cờ nhặt được một túi tiền ai đó đánh rơi.')
             .setColor(0x00FF00) // Green
-            .addFields({ name: 'Nhận được', value: `+${moneyGain} ${currencyName}`, inline: true });
+            .addFields({ name: 'Nhận được', value: `+${moneyGain.toLocaleString()} ${currencyName}`, inline: true });
 
     } else if (chance < 0.95) {
         // GOOD EVENT: Absorb Essence (EXP)
-        const expGain = Math.floor(Math.random() * 100) + 30;
+        const baseGain = Math.floor(Math.random() * 100) + 30;
+        const expGain = Math.floor(baseGain * multiplier);
         db.prepare('UPDATE users SET exp = exp + ? WHERE id = ?').run(expGain, userId);
 
         embed.setTitle('✨ HẤP THỤ LINH KHÍ')
             .setDescription('Bạn tìm thấy một vùng đất linh khí dồi dào, tu vi tăng tiến.')
             .setColor(0x00FF00) // Green
-            .addFields({ name: 'Tu vi tăng', value: `+${expGain} EXP`, inline: true });
+            .addFields({ name: 'Tu vi tăng', value: `+${expGain.toLocaleString()} EXP`, inline: true });
 
     } else {
         // RARE EVENT: Treasure (Money + EXP)
-        const moneyGain = Math.floor(Math.random() * 500) + 200;
-        const expGain = Math.floor(Math.random() * 200) + 100;
+        const baseMoney = Math.floor(Math.random() * 500) + 200;
+        const baseExp = Math.floor(Math.random() * 200) + 100;
+
+        const moneyGain = Math.floor(baseMoney * multiplier);
+        const expGain = Math.floor(baseExp * multiplier);
 
         db.prepare('UPDATE users SET balance = balance + ?, exp = exp + ? WHERE id = ?').run(moneyGain, expGain, userId);
 
@@ -113,8 +125,8 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
             .setDescription('Vận may tề thiên! Bạn tìm thấy một hang động cổ xưa chứa đầy châu báu và bí kíp.')
             .setColor(0xFFD700) // Gold
             .addFields(
-                { name: 'Tài sản', value: `+${moneyGain} ${currencyName}`, inline: true },
-                { name: 'Tu vi', value: `+${expGain} EXP`, inline: true }
+                { name: 'Tài sản', value: `+${moneyGain.toLocaleString()} ${currencyName}`, inline: true },
+                { name: 'Tu vi', value: `+${expGain.toLocaleString()} EXP`, inline: true }
             );
     }
 

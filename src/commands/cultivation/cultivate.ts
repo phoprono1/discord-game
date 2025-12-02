@@ -19,10 +19,14 @@ async function cultivateLogic(userId: string, replyFunc: (content: any) => Promi
     }
 
     // 3. Calculate EXP Gain
-    // Base gain: 10-20 EXP
-    // Realm bonus: +5 per realm level? Or maybe harder to gain at higher levels?
-    // Let's keep it simple: 10-30 EXP random.
-    const expGain = Math.floor(Math.random() * 21) + 10; // 10 to 30
+    // Base gain: 10-30 EXP
+    const baseExp = Math.floor(Math.random() * 21) + 10;
+
+    // Realm Multiplier
+    const realmLevel = user.realm || 0;
+    const multiplier = 1 + (realmLevel * 0.5);
+
+    const expGain = Math.floor(baseExp * multiplier);
 
     // 4. Update DB
     db.prepare('UPDATE users SET exp = exp + ? WHERE id = ?').run(expGain, userId);
@@ -36,12 +40,11 @@ async function cultivateLogic(userId: string, replyFunc: (content: any) => Promi
     setTimeout(() => COOLDOWNS.delete(userId), cooldownTime);
 
     // 6. Reply
-    // 6. Reply
     const embed = new EmbedBuilder()
         .setTitle('🧘 TU LUYỆN')
         .setDescription(`Bạn ngồi thiền hấp thu linh khí... Cảm thấy đan điền ấm nóng.`)
         .addFields(
-            { name: '✨ Tu vi tăng', value: `+${expGain} EXP`, inline: true },
+            { name: '✨ Tu vi tăng', value: `+${expGain.toLocaleString()} EXP ${multiplier > 1 ? `(x${multiplier})` : ''}`, inline: true },
             { name: '📊 Tổng tu vi', value: `${(user.exp + expGain).toLocaleString()} EXP`, inline: true }
         )
         .setColor(0x9B59B6) // Purple

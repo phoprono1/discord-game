@@ -47,7 +47,13 @@ async function fishLogic(userId: string, replyFunc: (content: any) => Promise<an
             .setDescription('Bạn ngồi cả buổi nhưng chẳng câu được con nào.')
             .setColor(0x808080); // Gray
     } else {
-        const amount = Math.floor(Math.random() * 30) + 5;
+        // Calculate Realm Multiplier
+        const realmLevel = user.realm || 0;
+        const multiplier = 1 + (realmLevel * 0.5);
+
+        const baseAmount = Math.floor(Math.random() * 30) + 5;
+        const amount = Math.floor(baseAmount * multiplier);
+
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(amount, userId);
 
         const configName = db.prepare('SELECT value FROM config WHERE key = ?').get('currency_name') as { value: string } | undefined;
@@ -59,7 +65,7 @@ async function fishLogic(userId: string, replyFunc: (content: any) => Promise<an
         const fish = fishNames[Math.floor(Math.random() * fishNames.length)];
 
         embed.setTitle('🎣 CÂU CÁ THÀNH CÔNG')
-            .setDescription(`Bạn đã câu được một con **${fish}**!\nBán được **${amount} ${currencyEmoji} ${currencyName}**.`)
+            .setDescription(`Bạn đã câu được một con **${fish}**!\nBán được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**.${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0x1E90FF); // DodgerBlue
     }
 

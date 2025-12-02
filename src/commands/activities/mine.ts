@@ -42,6 +42,10 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
     const embed = new EmbedBuilder()
         .setTimestamp();
 
+    // Calculate Realm Multiplier
+    const realmLevel = user.realm || 0;
+    const multiplier = 1 + (realmLevel * 0.5);
+
     if (chance < 0.3) {
         // 30% chance to find nothing
         embed.setTitle('⛏️ ĐÀO KHOÁNG THẤT BẠI')
@@ -49,7 +53,9 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
             .setColor(0x8B4513); // SaddleBrown
     } else if (chance < 0.8) {
         // 50% chance to find coins
-        const amount = Math.floor(Math.random() * 50) + 10;
+        const baseAmount = Math.floor(Math.random() * 50) + 10;
+        const amount = Math.floor(baseAmount * multiplier);
+
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(amount, userId);
 
         const configName = db.prepare('SELECT value FROM config WHERE key = ?').get('currency_name') as { value: string } | undefined;
@@ -58,11 +64,13 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
         const currencyEmoji = configEmoji?.value || '🪙';
 
         embed.setTitle('⛏️ ĐÀO KHOÁNG THÀNH CÔNG')
-            .setDescription(`Bạn đã đào được **${amount} ${currencyEmoji} ${currencyName}**!`)
+            .setDescription(`Bạn đã đào được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0xCD853F); // Peru
     } else {
         // 20% chance to find an ore
-        const amount = Math.floor(Math.random() * 100) + 50;
+        const baseAmount = Math.floor(Math.random() * 100) + 50;
+        const amount = Math.floor(baseAmount * multiplier);
+
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(amount, userId);
 
         const configName = db.prepare('SELECT value FROM config WHERE key = ?').get('currency_name') as { value: string } | undefined;
@@ -71,7 +79,7 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
         const currencyEmoji = configEmoji?.value || '🪙';
 
         embed.setTitle('💎 TRÚNG MÁNH!')
-            .setDescription(`**MAY MẮN!** Bạn trúng mánh và đào được **${amount} ${currencyEmoji} ${currencyName}**!`)
+            .setDescription(`**MAY MẮN!** Bạn trúng mánh và đào được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0xFFD700); // Gold
     }
 
