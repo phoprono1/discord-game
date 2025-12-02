@@ -42,7 +42,7 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
 
     if (pill && pill.count > 0) {
         hasPill = true;
-        bonusRate = 0.2; // +20% success chance
+        bonusRate = nextRealm.rate * 0.2; // +20% of base rate
     }
 
     const finalRate = nextRealm.rate + bonusRate;
