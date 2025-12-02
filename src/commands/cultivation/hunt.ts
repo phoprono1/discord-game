@@ -40,7 +40,29 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
     // Filter beasts that are somewhat around user's level (not too weak, not impossible)
     // Allow beasts from userRealm - 1 to userRealm + 2
     const availableBeasts = BEASTS.filter(b => b.minRealm <= userRealm + 1);
-    const beast = availableBeasts[Math.floor(Math.random() * availableBeasts.length)];
+
+    // Weighted Random Selection
+    // Weight = 1 / (Beast Strength) -> Stronger beasts have lower weight
+    // Or better: Weight = 1000 / Beast Strength.
+    // Example: Rabbit (10) -> 100, Dragon (5000) -> 0.2
+
+    let totalWeight = 0;
+    const weightedBeasts = availableBeasts.map(b => {
+        const weight = 1000 / b.strength;
+        totalWeight += weight;
+        return { ...b, weight };
+    });
+
+    let random = Math.random() * totalWeight;
+    let beast = weightedBeasts[0];
+
+    for (const b of weightedBeasts) {
+        random -= b.weight;
+        if (random <= 0) {
+            beast = b;
+            break;
+        }
+    }
 
     const embed = new EmbedBuilder()
         .setTitle('⚔️ SĂN BẮT YÊU THÚ ⚔️')
@@ -60,6 +82,10 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
     const roll = Math.random();
     const isWin = roll < winChance;
 
+    // Apply Cooldown regardless of result
+    HUNT_COOLDOWNS.add(userId);
+    setTimeout(() => HUNT_COOLDOWNS.delete(userId), COOLDOWN_SECONDS * 1000);
+
     if (isWin) {
         // REWARDS
         // EXP: Beast Strength * 2
@@ -73,13 +99,12 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
             .setColor(0x00FF00)
             .addFields(
                 { name: 'Kết quả', value: '🎉 Chiến thắng!', inline: true },
-                { name: 'Phần thưởng', value: `+${expGain} EXP\n+${moneyGain} Xu`, inline: true }
+                { name: 'Phần thưởng', value: `+${expGain} EXP\n+${moneyGain} Xu`, inline: true },
+                { name: 'Hồi sức', value: `Cần nghỉ ngơi ${COOLDOWN_SECONDS} giây.`, inline: true }
             );
     } else {
         // LOSS
-        // Penalty: Cooldown
-        HUNT_COOLDOWNS.add(userId);
-        setTimeout(() => HUNT_COOLDOWNS.delete(userId), COOLDOWN_SECONDS * 1000);
+        // Penalty: Cooldown (Already applied)
 
         embed.setDescription(`Bạn đã gặp **${beast.name}** nhưng không đánh lại!`)
             .setColor(0xFF0000)
