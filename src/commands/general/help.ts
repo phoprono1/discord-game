@@ -31,7 +31,7 @@ async function helpLogic(replyFunc: (content: any) => Promise<any>) {
             },
             {
                 name: '🎲 Giải Trí',
-                value: '`!taixiu` (!tx): Chơi Tài Xỉu\n`!xd` (!bj): Chơi Xì Dách (Blackjack)\n`!baucua` (!bc): Bầu Cua Tôm Cá\n`!duangua` (!dn): Đua Ngựa\n`!ck` (!stock): Chơi Chứng Khoán',
+                value: '`!taixiu` (!tx): Chơi Tài Xỉu\n`!xd` (!bj): Chơi Xì Dách (Blackjack)\n`!baucua` (!bc): Bầu Cua Tôm Cá\n`!duangua` (!dn): Đua Ngựa\n`!slots` (!s): Quay Xèng\n`!ck` (!stock): Chơi Chứng Khoán',
                 inline: false
             },
             {
