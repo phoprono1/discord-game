@@ -41,28 +41,8 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
     // Allow beasts from userRealm - 1 to userRealm + 2
     const availableBeasts = BEASTS.filter(b => b.minRealm <= userRealm + 1);
 
-    // Weighted Random Selection
-    // Weight = 1 / (Beast Strength) -> Stronger beasts have lower weight
-    // Or better: Weight = 1000 / Beast Strength.
-    // Example: Rabbit (10) -> 100, Dragon (5000) -> 0.2
-
-    let totalWeight = 0;
-    const weightedBeasts = availableBeasts.map(b => {
-        const weight = 1000 / b.strength;
-        totalWeight += weight;
-        return { ...b, weight };
-    });
-
-    let random = Math.random() * totalWeight;
-    let beast = weightedBeasts[0];
-
-    for (const b of weightedBeasts) {
-        random -= b.weight;
-        if (random <= 0) {
-            beast = b;
-            break;
-        }
-    }
+    // Random Selection (Uniform Probability)
+    const beast = availableBeasts[Math.floor(Math.random() * availableBeasts.length)];
 
     const embed = new EmbedBuilder()
         .setTitle('⚔️ SĂN BẮT YÊU THÚ ⚔️')
