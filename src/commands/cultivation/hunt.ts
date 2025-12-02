@@ -51,11 +51,11 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
     // 4. Combat Logic
     // Simple logic: Win chance based on Realm vs Beast Strength
     // User Strength roughly correlates to Realm * 100 + EXP/10? 
-    // Let's simplify: Base chance 50%. 
-    // If User Realm > Beast Min Realm: +20% per level diff.
-    // If User Realm < Beast Min Realm: -20% per level diff.
+    // Let's simplify: Base chance 40%. 
+    // If User Realm > Beast Min Realm: +15% per level diff.
+    // If User Realm < Beast Min Realm: -15% per level diff.
 
-    let winChance = 0.5 + (userRealm - beast.minRealm) * 0.2;
+    let winChance = 0.4 + (userRealm - beast.minRealm) * 0.15;
     if (winChance > 0.9) winChance = 0.9;
     if (winChance < 0.1) winChance = 0.1;
 
