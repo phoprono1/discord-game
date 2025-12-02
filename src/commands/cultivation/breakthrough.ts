@@ -69,7 +69,7 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
             .setColor(0x00FF00) // Green
             .addFields(
                 { name: 'Cảnh giới mới', value: nextRealm.name, inline: true },
-                { name: 'Tỷ lệ thành công', value: `${(nextRealm.rate * 100).toFixed(0)}% ${hasPill ? `(+20% từ Đan)` : ''}`, inline: true }
+                { name: 'Tỷ lệ thành công', value: `${(nextRealm.rate * 100).toFixed(0)}% ${hasPill ? `(+${(bonusRate * 100).toFixed(1)}% từ Đan)` : ''}`, inline: true }
             );
 
     } else {
