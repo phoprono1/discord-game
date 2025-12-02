@@ -82,9 +82,10 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
     const roll = Math.random();
     const isWin = roll < winChance;
 
-    // Apply Cooldown regardless of result
+    // Apply Cooldown based on result
+    const cooldownTime = isWin ? 5 : 120;
     HUNT_COOLDOWNS.add(userId);
-    setTimeout(() => HUNT_COOLDOWNS.delete(userId), COOLDOWN_SECONDS * 1000);
+    setTimeout(() => HUNT_COOLDOWNS.delete(userId), cooldownTime * 1000);
 
     if (isWin) {
         // REWARDS
@@ -100,7 +101,7 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
             .addFields(
                 { name: 'Kết quả', value: '🎉 Chiến thắng!', inline: true },
                 { name: 'Phần thưởng', value: `+${expGain} EXP\n+${moneyGain} Xu`, inline: true },
-                { name: 'Hồi sức', value: `Cần nghỉ ngơi ${COOLDOWN_SECONDS} giây.`, inline: true }
+                { name: 'Hồi sức', value: `Cần nghỉ ngơi ${cooldownTime} giây.`, inline: true }
             );
     } else {
         // LOSS
@@ -110,7 +111,7 @@ async function huntLogic(userId: string, replyFunc: (content: any) => Promise<an
             .setColor(0xFF0000)
             .addFields(
                 { name: 'Kết quả', value: '🤕 Thất bại & Bị thương', inline: true },
-                { name: 'Hậu quả', value: `Bạn cần nghỉ ngơi ${COOLDOWN_SECONDS} giây.`, inline: true }
+                { name: 'Hậu quả', value: `Bạn cần nghỉ ngơi ${cooldownTime} giây.`, inline: true }
             );
     }
 
