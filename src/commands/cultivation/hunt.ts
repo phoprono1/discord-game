@@ -4,7 +4,7 @@ import { UserData } from '../../types';
 import REALMS_DATA from '../../data/realms.json';
 
 const HUNT_COOLDOWNS = new Set<string>();
-const COOLDOWN_SECONDS = 120; // 2 minutes
+const COOLDOWN_SECONDS = 5; // 5 seconds
 
 const BEASTS = [
     { name: 'Thỏ Tinh', minRealm: 0, strength: 10 },
