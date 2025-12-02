@@ -36,7 +36,7 @@ async function helpLogic(replyFunc: (content: any) => Promise<any>) {
             },
             {
                 name: '🧘 Tu Tiên',
-                value: '`!tu` (!tuluyen): Ngồi thiền tăng EXP\n`!dotpha` (!dp): Đột phá cảnh giới\n`!canhgioi` (!realms): Xem danh sách cảnh giới\n`!tythi` (!pvp): Tỷ thí với người khác\n`!thongtin` (!tt, !me): Xem hồ sơ tu tiên',
+                value: '`!tu` (!cultivate): Tu luyện kiếm EXP\n`!dotpha` (!breakthrough): Đột phá cảnh giới\n`!san` (!hunt): Săn yêu thú\n`!dung` (!use): Dùng vật phẩm\n`!profile` (!pf): Xem thông tin tu tiên\n`!canhgioi` (!realms): Xem danh sách cảnh giới\n`!tythi` (!pvp): Tỷ thí võ công',
                 inline: false
             },
             {

@@ -35,7 +35,27 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
     }
 
     // 3. Attempt Breakthrough
-    const success = Math.random() < nextRealm.rate;
+    // Check for Trúc Cơ Đan (breakthrough_pill)
+    const pill = db.prepare('SELECT count FROM inventory WHERE user_id = ? AND item_id = ?').get(userId, 'breakthrough_pill') as { count: number } | undefined;
+    let hasPill = false;
+    let bonusRate = 0;
+
+    if (pill && pill.count > 0) {
+        hasPill = true;
+        bonusRate = 0.2; // +20% success chance
+    }
+
+    const finalRate = nextRealm.rate + bonusRate;
+    const success = Math.random() < finalRate;
+
+    // Consume pill if it helped (or just consume it on attempt? usually on attempt)
+    if (hasPill) {
+        if (pill!.count === 1) {
+            db.prepare('DELETE FROM inventory WHERE user_id = ? AND item_id = ?').run(userId, 'breakthrough_pill');
+        } else {
+            db.prepare('UPDATE inventory SET count = count - 1 WHERE user_id = ? AND item_id = ?').run(userId, 'breakthrough_pill');
+        }
+    }
 
     const embed = new EmbedBuilder()
         .setTimestamp();
@@ -49,7 +69,7 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
             .setColor(0x00FF00) // Green
             .addFields(
                 { name: 'Cảnh giới mới', value: nextRealm.name, inline: true },
-                { name: 'Tỷ lệ thành công', value: `${nextRealm.rate * 100}%`, inline: true }
+                { name: 'Tỷ lệ thành công', value: `${(nextRealm.rate * 100).toFixed(0)}% ${hasPill ? `(+20% từ Đan)` : ''}`, inline: true }
             );
 
     } else {

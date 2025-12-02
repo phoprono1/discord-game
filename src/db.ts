@@ -51,6 +51,17 @@ try {
     db.prepare("ALTER TABLE users ADD COLUMN realm INTEGER DEFAULT 0").run();
     console.log("Added 'realm' column to users table.");
   }
+
+  // Seed Shop Items
+  const shopItems = [
+    { id: 'exp_pill', name: 'Tụ Khí Đan', price: 1000, type: 'pill' },
+    { id: 'breakthrough_pill', name: 'Trúc Cơ Đan', price: 5000, type: 'pill' }
+  ];
+
+  const insertShop = db.prepare('INSERT OR IGNORE INTO shop (id, name, price, type) VALUES (?, ?, ?, ?)');
+  for (const item of shopItems) {
+    insertShop.run(item.id, item.name, item.price, item.type);
+  }
 } catch (error) {
   console.error("Migration error:", error);
 }
