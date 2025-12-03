@@ -46,7 +46,7 @@ async function helpLogic(replyFunc: (content: any) => Promise<any>) {
             },
             {
                 name: '🛡️ Admin',
-                value: '`!config`: Cài đặt\n`!trungphat` (!punish): Trừng phạt\n`!them` (!add): Thêm tài nguyên\n`!admin-shop`: Quản lý Shop\n`!check-cd`: Kiểm tra cooldown',
+                value: '`!config`: Cài đặt\n`!trungphat` (!punish): Trừng phạt\n`!them` (!add): Thêm tài nguyên\n`!giam` (!remove): Giảm tài nguyên\n`!admin-shop`: Quản lý Shop\n`!check-cd`: Kiểm tra cooldown',
                 inline: false
             }
         )
