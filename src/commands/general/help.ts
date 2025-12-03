@@ -21,7 +21,7 @@ async function helpLogic(replyFunc: (content: any) => Promise<any>) {
         .addFields(
             {
                 name: '💰 Kinh Tế',
-                value: '`!taisan` (!vi, !tien): Xem tài sản\n`!nganhang` (!bank): Gửi/Rút tiền\n`!chuyen` (!transfer): Chuyển tiền\n`!cuahang` (!shop): Mua đồ\n`!bxh` (!top): Bảng xếp hạng',
+                value: '`!taisan` (!vi, !tien): Xem tài sản\n`!nganhang` (!bank): Gửi/Rút tiền\n`!chuyen` (!transfer): Chuyển tiền\n`!kho` (!inv): Xem túi đồ\n`!cuahang` (!shop): Mua đồ\n`!bxh` (!top): Bảng xếp hạng',
                 inline: false
             },
             {

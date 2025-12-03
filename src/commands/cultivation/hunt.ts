@@ -16,7 +16,17 @@ const BEASTS = [
     { name: 'Hắc Điểu', minRealm: 5, strength: 1000 },
     { name: 'Kỳ Lân Con', minRealm: 6, strength: 2000 },
     { name: 'Rồng Đất', minRealm: 7, strength: 5000 },
-    { name: 'Phượng Hoàng Lửa', minRealm: 8, strength: 10000 }
+    { name: 'Phượng Hoàng Lửa', minRealm: 8, strength: 10000 },
+    { name: 'Huyết Mãng', minRealm: 9, strength: 15000 },
+    { name: 'Bạch Hổ', minRealm: 10, strength: 20000 },
+    { name: 'Huyền Vũ', minRealm: 12, strength: 30000 },
+    { name: 'Thanh Long', minRealm: 14, strength: 50000 },
+    { name: 'Cửu Vĩ Hồ', minRealm: 16, strength: 80000 },
+    { name: 'Thôn Thiên Khuyển', minRealm: 18, strength: 120000 },
+    { name: 'Thái Cổ Ma Long', minRealm: 20, strength: 200000 },
+    { name: 'Hỗn Độn Thú', minRealm: 22, strength: 350000 },
+    { name: 'Thao Thiết', minRealm: 24, strength: 500000 },
+    { name: 'Côn Bằng', minRealm: 26, strength: 1000000 }
 ];
 
 async function huntLogic(userId: string, replyFunc: (content: any) => Promise<any>) {
