@@ -76,13 +76,35 @@ async function duanguaLogic(
         round++;
 
         // Move horses
+        // Move horses
         for (let i = 0; i < HORSES; i++) {
             // Random move 1-4 steps
             const move = Math.floor(Math.random() * 4) + 1;
             positions[i] += move;
+        }
 
-            if (positions[i] >= TRACK_LENGTH - 1 && winner === -1) {
-                winner = i + 1;
+        // Check for winners AFTER all horses moved
+        const finishers: { index: number, position: number }[] = [];
+        for (let i = 0; i < HORSES; i++) {
+            if (positions[i] >= TRACK_LENGTH - 1) {
+                finishers.push({ index: i + 1, position: positions[i] });
+            }
+        }
+
+        if (finishers.length > 0) {
+            // Sort by position (descending)
+            finishers.sort((a, b) => b.position - a.position);
+
+            // Check for ties in top position
+            const maxPos = finishers[0].position;
+            const topFinishers = finishers.filter(f => f.position === maxPos);
+
+            if (topFinishers.length > 1) {
+                // Random winner among ties
+                const winnerObj = topFinishers[Math.floor(Math.random() * topFinishers.length)];
+                winner = winnerObj.index;
+            } else {
+                winner = finishers[0].index;
             }
         }
 
