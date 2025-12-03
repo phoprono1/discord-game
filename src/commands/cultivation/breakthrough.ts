@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 // Realm Configuration
 import REALMS_DATA from '../../data/realms.json';
@@ -30,7 +31,7 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
     // 2. Check Requirements
     if (user.exp < nextRealm.req) {
         const missing = nextRealm.req - user.exp;
-        await replyFunc(`🚫 **Tu vi chưa đủ!**\nCần: **${nextRealm.req.toLocaleString()} EXP** để đột phá lên **${nextRealm.name}**.\nThiếu: **${missing.toLocaleString()} EXP**.`);
+        await replyFunc(`🚫 **Tu vi chưa đủ!**\nCần: **${formatNumber(nextRealm.req)} EXP** để đột phá lên **${nextRealm.name}**.\nThiếu: **${formatNumber(missing)} EXP**.`);
         return;
     }
 
@@ -151,8 +152,8 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
             .setDescription(`Thiên lôi giáng xuống! Đạo hữu <@${userId}> đột phá thất bại, thân thể trọng thương.`)
             .setColor(0xFF0000) // Red
             .addFields(
-                { name: 'Tổn thất Tu Vi', value: `-${expLoss.toLocaleString()} EXP`, inline: true },
-                { name: 'Tiền thuốc men', value: `-${moneyLoss.toLocaleString()} Xu`, inline: true },
+                { name: 'Tổn thất Tu Vi', value: `-${formatNumber(expLoss)} EXP`, inline: true },
+                { name: 'Tiền thuốc men', value: `-${formatNumber(moneyLoss)} Xu`, inline: true },
                 { name: 'Cảnh giới', value: 'Vẫn dậm chân tại chỗ', inline: false }
             );
     }

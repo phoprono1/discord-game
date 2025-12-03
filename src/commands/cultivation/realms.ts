@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, ButtonInteraction } from 'discord.js';
 import REALMS_DATA from '../../data/realms.json';
+import { formatNumber } from '../../utils';
 
 async function realmsLogic(interactionOrMessage: ChatInputCommandInteraction | Message, initialPage: number = 1) {
     const chunkSize = 20;
@@ -25,7 +26,7 @@ async function realmsLogic(interactionOrMessage: ChatInputCommandInteraction | M
             const rate = realm.rate !== undefined ? `${realm.rate * 100}%` : 'N/A';
             embed.addFields({
                 name: `${startIndex + index}. ${realm.name}`,
-                value: `Yêu cầu: **${realm.req.toLocaleString()} EXP**\nTỷ lệ: **${rate}**`,
+                value: `Yêu cầu: **${formatNumber(realm.req)} EXP**\nTỷ lệ: **${rate}**`,
                 inline: true
             });
         });

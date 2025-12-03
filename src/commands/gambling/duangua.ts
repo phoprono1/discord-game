@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const HORSES = 5;
 const TRACK_LENGTH = 20;
@@ -43,7 +44,7 @@ async function duanguaLogic(
     }
 
     if (user.balance < betAmount) {
-        await replyFunc(`❌ Bạn không đủ tiền! Cần **${betAmount.toLocaleString()}** nhưng chỉ có **${user.balance.toLocaleString()}**.`);
+        await replyFunc(`❌ Bạn không đủ tiền! Cần **${formatNumber(betAmount)}** nhưng chỉ có **${formatNumber(user.balance)}**.`);
         return;
     }
 
@@ -57,7 +58,7 @@ async function duanguaLogic(
 
     const embed = new EmbedBuilder()
         .setTitle('🐎 ĐUA NGỰA TRỰC TIẾP 🐎')
-        .setDescription(`Bạn đã cược **${betAmount.toLocaleString()}** vào ngựa số **${horseChoice}**.\nCuộc đua bắt đầu!`)
+        .setDescription(`Bạn đã cược **${formatNumber(betAmount)}** vào ngựa số **${horseChoice}**.\nCuộc đua bắt đầu!`)
         .setColor(0x0099FF)
         .setTimestamp();
 
@@ -122,10 +123,10 @@ async function duanguaLogic(
                 const winAmount = betAmount * 10;
                 db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(winAmount, userId);
                 embed.setColor(0x00FF00);
-                embed.addFields({ name: 'Kết quả', value: `🎉 Chúc mừng! Bạn đã thắng **${winAmount.toLocaleString()}** Xu!` });
+                embed.addFields({ name: 'Kết quả', value: `🎉 Chúc mừng! Bạn đã thắng **${formatNumber(winAmount)}** Xu!` });
             } else {
                 embed.setColor(0xFF0000);
-                embed.addFields({ name: 'Kết quả', value: `😢 Rất tiếc! Bạn đã thua **${betAmount.toLocaleString()}** Xu.` });
+                embed.addFields({ name: 'Kết quả', value: `😢 Rất tiếc! Bạn đã thua **${formatNumber(betAmount)}** Xu.` });
             }
         }
 

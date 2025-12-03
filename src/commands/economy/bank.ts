@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 async function bankLogic(
     userId: string,
@@ -27,8 +28,8 @@ async function bankLogic(
         embed.setTitle('🏦 NGÂN HÀNG')
             .setColor(0xFFD700) // Gold
             .addFields(
-                { name: '🏦 Số dư ngân hàng', value: `${user.bank.toLocaleString()} ${currencyEmoji}`, inline: true },
-                { name: '👛 Tiền mặt', value: `${user.balance.toLocaleString()} ${currencyEmoji}`, inline: true }
+                { name: '🏦 Số dư ngân hàng', value: `${formatNumber(user.bank)} ${currencyEmoji}`, inline: true },
+                { name: '👛 Tiền mặt', value: `${formatNumber(user.balance)} ${currencyEmoji}`, inline: true }
             );
         await replyFunc({ embeds: [embed] });
         return;
@@ -61,9 +62,9 @@ async function bankLogic(
 
         embed.setTitle('📥 GỬI TIỀN THÀNH CÔNG')
             .setColor(0x00FF00) // Green
-            .setDescription(`Đã gửi **${amount.toLocaleString()} ${currencyEmoji}** vào ngân hàng.`)
+            .setDescription(`Đã gửi **${formatNumber(amount)} ${currencyEmoji}** vào ngân hàng.`)
             .addFields(
-                { name: 'Số dư mới', value: `${(user.bank + amount).toLocaleString()} ${currencyEmoji}`, inline: true }
+                { name: 'Số dư mới', value: `${formatNumber(user.bank + amount)} ${currencyEmoji}`, inline: true }
             );
         await replyFunc({ embeds: [embed] });
 
@@ -77,9 +78,9 @@ async function bankLogic(
 
         embed.setTitle('📤 RÚT TIỀN THÀNH CÔNG')
             .setColor(0xFFA500) // Orange
-            .setDescription(`Đã rút **${amount.toLocaleString()} ${currencyEmoji}** về ví.`)
+            .setDescription(`Đã rút **${formatNumber(amount)} ${currencyEmoji}** về ví.`)
             .addFields(
-                { name: 'Số dư ngân hàng còn lại', value: `${(user.bank - amount).toLocaleString()} ${currencyEmoji}`, inline: true }
+                { name: 'Số dư ngân hàng còn lại', value: `${formatNumber(user.bank - amount)} ${currencyEmoji}`, inline: true }
             );
         await replyFunc({ embeds: [embed] });
     }

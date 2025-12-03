@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const COOLDOWNS = new Set<string>();
 const WARNINGS = new Set<string>();
@@ -64,7 +65,7 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
         const currencyEmoji = configEmoji?.value || '🪙';
 
         embed.setTitle('⛏️ ĐÀO KHOÁNG THÀNH CÔNG')
-            .setDescription(`Bạn đã đào được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
+            .setDescription(`Bạn đã đào được **${formatNumber(amount)} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0xCD853F); // Peru
     } else {
         // 20% chance to find an ore
@@ -79,7 +80,7 @@ async function mineLogic(userId: string, replyFunc: (content: any) => Promise<an
         const currencyEmoji = configEmoji?.value || '🪙';
 
         embed.setTitle('💎 TRÚNG MÁNH!')
-            .setDescription(`**MAY MẮN!** Bạn trúng mánh và đào được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
+            .setDescription(`**MAY MẮN!** Bạn trúng mánh và đào được **${formatNumber(amount)} ${currencyEmoji} ${currencyName}**!${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0xFFD700); // Gold
     }
 

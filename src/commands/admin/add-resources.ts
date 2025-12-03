@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const ADMIN_IDS = process.env.ADMIN_IDS?.split(',') || [];
 
@@ -41,7 +42,7 @@ async function addResourcesLogic(
         .setColor(0x00FF00) // Green
         .addFields(
             { name: 'Loại', value: type === 'money' ? `Tiền (${currencyName})` : 'Tu Vi (EXP)', inline: true },
-            { name: 'Số lượng', value: `+${amount.toLocaleString()}`, inline: true }
+            { name: 'Số lượng', value: `+${formatNumber(amount)}`, inline: true }
         )
         .setTimestamp();
 

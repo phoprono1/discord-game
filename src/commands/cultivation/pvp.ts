@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, ButtonInteraction, Collection } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 import REALMS_DATA from '../../data/realms.json';
 
 const cooldowns = new Map<string, number>();
@@ -79,7 +80,7 @@ async function pvpLogic(
         .setTitle('⚔️ LỜI TUYÊN CHIẾN ⚔️')
         .setDescription(`<@${challengerId}> muốn tỷ thí với <@${targetId}>!`)
         .addFields(
-            { name: 'Tiền cược', value: `${betAmount.toLocaleString()} Xu`, inline: true },
+            { name: 'Tiền cược', value: `${formatNumber(betAmount)} Xu`, inline: true },
             { name: 'Thời gian', value: '60 giây để chấp nhận', inline: true }
         )
         .setColor(0xFF0000)
@@ -158,8 +159,8 @@ async function pvpLogic(
                 .setDescription(`Trận chiến nảy lửa đã kết thúc!`)
                 .setColor(0xFFD700)
                 .addFields(
-                    { name: 'Người thắng', value: `${winnerName}\n+${betAmount.toLocaleString()} Xu\n+${expReward} EXP`, inline: true },
-                    { name: 'Người thua', value: `${loserName}\n-${betAmount.toLocaleString()} Xu\n-${expPenalty} EXP`, inline: true },
+                    { name: 'Người thắng', value: `${winnerName}\n+${formatNumber(betAmount)} Xu\n+${formatNumber(expReward)} EXP`, inline: true },
+                    { name: 'Người thua', value: `${loserName}\n-${formatNumber(betAmount)} Xu\n-${formatNumber(expPenalty)} EXP`, inline: true },
                     { name: 'Chi tiết', value: `Chênh lệch cảnh giới: ${Math.abs(realmDiff)}\nTỷ lệ thắng của <@${challengerId}>: ${(winChance * 100).toFixed(0)}%`, inline: false }
                 )
                 .setTimestamp();

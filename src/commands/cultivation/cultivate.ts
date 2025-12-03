@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const COOLDOWNS = new Set<string>();
 
@@ -44,8 +45,8 @@ async function cultivateLogic(userId: string, replyFunc: (content: any) => Promi
         .setTitle('🧘 TU LUYỆN')
         .setDescription(`Bạn ngồi thiền hấp thu linh khí... Cảm thấy đan điền ấm nóng.`)
         .addFields(
-            { name: '✨ Tu vi tăng', value: `+${expGain.toLocaleString()} EXP ${multiplier > 1 ? `(x${multiplier})` : ''}`, inline: true },
-            { name: '📊 Tổng tu vi', value: `${(user.exp + expGain).toLocaleString()} EXP`, inline: true }
+            { name: '✨ Tu vi tăng', value: `+${formatNumber(expGain)} EXP ${multiplier > 1 ? `(x${multiplier})` : ''}`, inline: true },
+            { name: '📊 Tổng tu vi', value: `${formatNumber(user.exp + expGain)} EXP`, inline: true }
         )
         .setColor(0x9B59B6) // Purple
         .setTimestamp();

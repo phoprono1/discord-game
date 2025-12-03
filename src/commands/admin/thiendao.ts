@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -59,7 +60,7 @@ async function thiendaoLogic(
         if (isBuff) {
             // Buff: Add to Balance
             db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(amount, target.id);
-            results.push(`😇 **${username}**: **+${amount.toLocaleString()}** (Phúc Trạch)`);
+            results.push(`😇 **${username}**: **+${formatNumber(amount)}** (Phúc Trạch)`);
         } else {
             // Nerf: Deduct (Balance first, then Bank)
             let remaining = amount;
@@ -79,7 +80,7 @@ async function thiendaoLogic(
             }
 
             db.prepare('UPDATE users SET balance = ?, bank = ? WHERE id = ?').run(newBalance, newBank, target.id);
-            results.push(`🌩️ **${username}**: **-${amount.toLocaleString()}** (Kiếp Nạn)`);
+            results.push(`🌩️ **${username}**: **-${formatNumber(amount)}** (Kiếp Nạn)`);
         }
     }
 

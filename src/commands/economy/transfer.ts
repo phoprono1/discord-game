@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 async function transferLogic(senderId: string, targetId: string, amount: number, replyFunc: (content: any) => Promise<any>) {
     // 1. Validation
@@ -22,7 +23,7 @@ async function transferLogic(senderId: string, targetId: string, amount: number,
     }
 
     if (sender.balance < amount) {
-        await replyFunc(`❌ Bạn không đủ tiền! Cần **${amount.toLocaleString()}** nhưng chỉ có **${sender.balance.toLocaleString()}**.`);
+        await replyFunc(`❌ Bạn không đủ tiền! Cần **${formatNumber(amount)}** nhưng chỉ có **${formatNumber(sender.balance)}**.`);
         return;
     }
 
@@ -49,7 +50,7 @@ async function transferLogic(senderId: string, targetId: string, amount: number,
 
         const embed = new EmbedBuilder()
             .setTitle('💸 CHUYỂN TIỀN THÀNH CÔNG')
-            .setDescription(`**<@${senderId}>** đã chuyển **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}** cho **<@${targetId}>**.`)
+            .setDescription(`**<@${senderId}>** đã chuyển **${formatNumber(amount)} ${currencyEmoji} ${currencyName}** cho **<@${targetId}>**.`)
             .setColor(0x00FF00) // Green
             .setTimestamp();
 

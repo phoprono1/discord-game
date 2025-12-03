@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder, MessageFlags } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const SYMBOLS = {
     'bau': '🍐',
@@ -37,7 +38,7 @@ async function baucuaLogic(
     }
 
     if (user.balance < totalBet) {
-        await replyFunc(`❌ Bạn không đủ tiền! Cần **${totalBet.toLocaleString()}** nhưng chỉ có **${user.balance.toLocaleString()}**.`);
+        await replyFunc(`❌ Bạn không đủ tiền! Cần **${formatNumber(totalBet)}** nhưng chỉ có **${formatNumber(user.balance)}**.`);
         return;
     }
 
@@ -63,9 +64,9 @@ async function baucuaLogic(
             // Win: Return Bet + (Bet * Count)
             const winAmount = amount + (amount * count);
             totalWinnings += winAmount;
-            resultDetails += `✅ **${SYMBOLS[choice as keyof typeof SYMBOLS]}**: +${winAmount.toLocaleString()} (x${count})\n`;
+            resultDetails += `✅ **${SYMBOLS[choice as keyof typeof SYMBOLS]}**: +${formatNumber(winAmount)} (x${count})\n`;
         } else {
-            resultDetails += `❌ **${SYMBOLS[choice as keyof typeof SYMBOLS]}**: -${amount.toLocaleString()}\n`;
+            resultDetails += `❌ **${SYMBOLS[choice as keyof typeof SYMBOLS]}**: -${formatNumber(amount)}\n`;
         }
     }
 
@@ -81,8 +82,8 @@ async function baucuaLogic(
         .setColor(totalWinnings > totalBet ? 0x00FF00 : 0xFF0000)
         .addFields(
             { name: 'Chi tiết cược', value: resultDetails || 'Không có', inline: false },
-            { name: 'Tổng kết', value: `Cược: ${totalBet.toLocaleString()}\nNhận: ${totalWinnings.toLocaleString()}\nLãi/Lỗ: ${(totalWinnings - totalBet).toLocaleString()}`, inline: false },
-            { name: 'Số dư mới', value: `${newBalance.toLocaleString()} Xu`, inline: false }
+            { name: 'Tổng kết', value: `Cược: ${formatNumber(totalBet)}\nNhận: ${formatNumber(totalWinnings)}\nLãi/Lỗ: ${formatNumber(totalWinnings - totalBet)}`, inline: false },
+            { name: 'Số dư mới', value: `${formatNumber(newBalance)} Xu`, inline: false }
         )
         .setTimestamp();
 

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const DICE_EMOJIS = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
@@ -107,7 +108,7 @@ async function taixiuLogic(
             { name: 'Cược', value: `${betAmount} ${currencyEmoji}`, inline: true },
             { name: 'Thông báo', value: resultMessage, inline: false }
         )
-        .setFooter({ text: `Số dư mới: ${(user.balance + profit).toLocaleString()} ${currencyName}` });
+        .setFooter({ text: `Số dư mới: ${formatNumber(user.balance + profit)} ${currencyName}` });
 
     await replyFunc({ embeds: [embed] });
 }

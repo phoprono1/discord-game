@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, ButtonInteraction, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 import REALMS_DATA from '../../data/realms.json';
 
 const ITEMS_PER_PAGE = 10;
@@ -69,9 +70,9 @@ async function startLeaderboard(source: ChatInputCommandInteraction | Message, t
 
             if (type === 'realm') {
                 const realmName = REALMS_DATA[user.realm]?.name || 'Phàm Nhân';
-                return `${rankEmoji} **${username}**\n   ${emoji} Cảnh giới: **${realmName}**\n   ✨ Tu vi: ${user.exp.toLocaleString()} EXP`;
+                return `${rankEmoji} **${username}**\n   ${emoji} Cảnh giới: **${realmName}**\n   ✨ Tu vi: ${formatNumber(user.exp)} EXP`;
             } else {
-                return `${rankEmoji} **${username}**\n   ${emoji} Tổng tài sản: **${user.total.toLocaleString()} ${currencyEmoji}**\n   (Ví: ${user.balance.toLocaleString()} | Bank: ${user.bank.toLocaleString()})`;
+                return `${rankEmoji} **${username}**\n   ${emoji} Tổng tài sản: **${formatNumber(user.total)} ${currencyEmoji}**\n   (Ví: ${formatNumber(user.balance)} | Bank: ${formatNumber(user.bank)})`;
             }
         }))).join('\n\n');
 

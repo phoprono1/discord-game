@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 async function balanceLogic(userId: string, replyFunc: (content: any) => Promise<any>) {
     // Get user data or create if not exists
@@ -24,9 +25,9 @@ async function balanceLogic(userId: string, replyFunc: (content: any) => Promise
         .setTitle('💰 TÀI SẢN CÁ NHÂN')
         .setColor(0xFFD700) // Gold
         .addFields(
-            { name: '👛 Ví', value: `${user.balance.toLocaleString()} ${currencyEmoji}`, inline: true },
-            { name: '🏦 Ngân hàng', value: `${user.bank.toLocaleString()} ${currencyEmoji}`, inline: true },
-            { name: '📊 Tổng tài sản', value: `${total.toLocaleString()} ${currencyEmoji} ${currencyName}`, inline: false }
+            { name: '👛 Ví', value: `${formatNumber(user.balance)} ${currencyEmoji}`, inline: true },
+            { name: '🏦 Ngân hàng', value: `${formatNumber(user.bank)} ${currencyEmoji}`, inline: true },
+            { name: '📊 Tổng tài sản', value: `${formatNumber(total)} ${currencyEmoji} ${currencyName}`, inline: false }
         )
         .setTimestamp();
 

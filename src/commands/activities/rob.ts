@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const COOLDOWNS = new Set<string>();
 
@@ -59,7 +60,7 @@ async function robLogic(
         db.prepare('UPDATE users SET balance = balance - ? WHERE id = ?').run(stolenAmount, victimId);
 
         embed.setTitle('🔫 CƯỚP THÀNH CÔNG!')
-            .setDescription(`Bạn đã cướp được **${stolenAmount.toLocaleString()} ${currencyEmoji}** từ <@${victimId}>!`)
+            .setDescription(`Bạn đã cướp được **${formatNumber(stolenAmount)} ${currencyEmoji}** từ <@${victimId}>!`)
             .setColor(0x00FF00); // Green
     } else {
         // FAIL (65%)
@@ -70,7 +71,7 @@ async function robLogic(
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(fineAmount, victimId);
 
         embed.setTitle('🚔 CƯỚP THẤT BẠI!')
-            .setDescription(`**BỊ BẮT!** Bạn đã bị cảnh sát tóm và phải đền bù **${fineAmount.toLocaleString()} ${currencyEmoji}** cho <@${victimId}>!`)
+            .setDescription(`**BỊ BẮT!** Bạn đã bị cảnh sát tóm và phải đền bù **${formatNumber(fineAmount)} ${currencyEmoji}** cho <@${victimId}>!`)
             .setColor(0xFF0000); // Red
     }
 

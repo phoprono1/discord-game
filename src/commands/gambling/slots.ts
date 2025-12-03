@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder, MessageFlags } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const SYMBOLS = ['🍒', '🍋', '🍇', '🍉', '🔔', '💎', '7️⃣'];
 const WEIGHTS = [20, 20, 20, 20, 10, 8, 2]; // Total 100
@@ -42,7 +43,7 @@ async function slotsLogic(
     }
 
     if (user.balance < betAmount) {
-        await replyFunc(`❌ Bạn không đủ tiền! Cần **${betAmount.toLocaleString()}** nhưng chỉ có **${user.balance.toLocaleString()}**.`);
+        await replyFunc(`❌ Bạn không đủ tiền! Cần **${formatNumber(betAmount)}** nhưng chỉ có **${formatNumber(user.balance)}**.`);
         return;
     }
 
@@ -52,7 +53,7 @@ async function slotsLogic(
     // 3. Animation
     const embed = new EmbedBuilder()
         .setTitle('🎰 QUAY XÈNG (SLOTS) 🎰')
-        .setDescription(`Cược: **${betAmount.toLocaleString()}** Xu\n\n[ 🌀 | 🌀 | 🌀 ]`)
+        .setDescription(`Cược: **${formatNumber(betAmount)}** Xu\n\n[ 🌀 | 🌀 | 🌀 ]`)
         .setColor(0x0099FF)
         .addFields({
             name: 'Bảng Thưởng',
@@ -68,13 +69,13 @@ async function slotsLogic(
     // Animation steps
     // Step 1: Reveal 1st
     await sleep(1000);
-    embed.setDescription(`Cược: **${betAmount.toLocaleString()}** Xu\n\n[ ${result[0]} | 🌀 | 🌀 ]`);
+    embed.setDescription(`Cược: **${formatNumber(betAmount)}** Xu\n\n[ ${result[0]} | 🌀 | 🌀 ]`);
     if (message && typeof message.edit === 'function') await message.edit({ embeds: [embed] });
     else await editFunc({ embeds: [embed] });
 
     // Step 2: Reveal 2nd
     await sleep(1000);
-    embed.setDescription(`Cược: **${betAmount.toLocaleString()}** Xu\n\n[ ${result[0]} | ${result[1]} | 🌀 ]`);
+    embed.setDescription(`Cược: **${formatNumber(betAmount)}** Xu\n\n[ ${result[0]} | ${result[1]} | 🌀 ]`);
     if (message && typeof message.edit === 'function') await message.edit({ embeds: [embed] });
     else await editFunc({ embeds: [embed] });
 
@@ -109,12 +110,12 @@ async function slotsLogic(
 
     const winAmount = betAmount * multiplier;
 
-    embed.setDescription(`Cược: **${betAmount.toLocaleString()}** Xu\n\n[ ${result[0]} | ${result[1]} | ${result[2]} ]`);
+    embed.setDescription(`Cược: **${formatNumber(betAmount)}** Xu\n\n[ ${result[0]} | ${result[1]} | ${result[2]} ]`);
 
     if (multiplier > 0) {
         db.prepare('UPDATE users SET balance = balance + ? WHERE id = ?').run(winAmount, userId);
         embed.setColor(0x00FF00);
-        embed.addFields({ name: 'Kết quả', value: `${winType}\nBạn nhận được: **${winAmount.toLocaleString()}** Xu` });
+        embed.addFields({ name: 'Kết quả', value: `${winType}\nBạn nhận được: **${formatNumber(winAmount)}** Xu` });
     } else {
         embed.setColor(0xFF0000);
         embed.addFields({ name: 'Kết quả', value: 'Chúc bạn may mắn lần sau! 😢' });

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 async function useLogic(userId: string, itemId: string, amount: number, replyFunc: (content: any) => Promise<any>) {
     // 1. Check Inventory
@@ -47,7 +48,7 @@ async function useLogic(userId: string, itemId: string, amount: number, replyFun
         const pillName = shopItem?.name || 'Đan Dược';
 
         embed.setTitle('💊 SỬ DỤNG VẬT PHẨM')
-            .setDescription(`Bạn đã sử dụng **${amount}x ${pillName}**.\nHiệu quả: Tăng **${totalExp.toLocaleString()} EXP**!`)
+            .setDescription(`Bạn đã sử dụng **${amount}x ${pillName}**.\nHiệu quả: Tăng **${formatNumber(totalExp)} EXP**!`)
             .setColor(0x00FF00);
         consumed = true;
 

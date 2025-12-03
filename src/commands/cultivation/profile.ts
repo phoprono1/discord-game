@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 // Duplicate REALMS for display (should be in constants.ts in future)
 import REALMS_DATA from '../../data/realms.json';
@@ -27,9 +28,9 @@ async function profileLogic(userId: string, targetUser: any, replyFunc: (content
         const nextRealm = REALMS[currentRealmIdx + 1];
         const req = nextRealm.req;
         percent = Math.min(100, Math.floor((user.exp / req) * 100));
-        progressStr = `${user.exp.toLocaleString()} / ${req.toLocaleString()} EXP (${percent}%)`;
+        progressStr = `${formatNumber(user.exp)} / ${formatNumber(req)} EXP (${percent}%)`;
     } else {
-        progressStr = `${user.exp.toLocaleString()} EXP (Đỉnh Phong)`;
+        progressStr = `${formatNumber(user.exp)} EXP (Đỉnh Phong)`;
     }
 
     // Progress Bar
@@ -49,7 +50,7 @@ async function profileLogic(userId: string, targetUser: any, replyFunc: (content
         .setThumbnail(targetUser.displayAvatarURL())
         .addFields(
             { name: '🧘 Cảnh Giới', value: `**${realmName}**`, inline: true },
-            { name: '💰 Tài Sản', value: `${(user.balance + user.bank).toLocaleString()} ${currencyEmoji}`, inline: true },
+            { name: '💰 Tài Sản', value: `${formatNumber(user.balance + user.bank)} ${currencyEmoji}`, inline: true },
             { name: '✨ Tu Vi', value: `${progressBar}\n${progressStr}`, inline: false }
         )
         .setFooter({ text: 'Tu hành nghịch thiên, gian nan trắc trở.' });

@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData, ShopItem } from '../../types';
+import { formatNumber } from '../../utils';
 
 async function shopView(replyFunc: (content: any) => Promise<any>) {
     const items = db.prepare('SELECT * FROM shop').all() as ShopItem[];
@@ -15,7 +16,7 @@ async function shopView(replyFunc: (content: any) => Promise<any>) {
     const currencyName = configName?.value || 'Xu';
     const currencyEmoji = configEmoji?.value || '🪙';
 
-    const itemList = items.map(item => `**${item.name}** (ID: \`${item.id}\`) - ${item.price} ${currencyEmoji} ${currencyName} - *${item.type}*`).join('\n');
+    const itemList = items.map(item => `**${item.name}** (ID: \`${item.id}\`) - ${formatNumber(item.price)} ${currencyEmoji} ${currencyName} - *${item.type}*`).join('\n');
 
     const embed = new EmbedBuilder()
         .setTitle('🛒 CỬA HÀNG')
@@ -49,7 +50,7 @@ async function shopBuy(userId: string, itemId: string, amount: number, replyFunc
     const currencyEmoji = configEmoji?.value || '🪙';
 
     if (user.balance < totalCost) {
-        await replyFunc(`Bạn không đủ tiền! Bạn cần **${totalCost} ${currencyEmoji} ${currencyName}** nhưng chỉ có **${user.balance} ${currencyEmoji} ${currencyName}**.`);
+        await replyFunc(`Bạn không đủ tiền! Bạn cần **${formatNumber(totalCost)} ${currencyEmoji} ${currencyName}** nhưng chỉ có **${formatNumber(user.balance)} ${currencyEmoji} ${currencyName}**.`);
         return;
     }
 
@@ -71,7 +72,7 @@ async function shopBuy(userId: string, itemId: string, amount: number, replyFunc
         transaction();
         const embed = new EmbedBuilder()
             .setTitle('🛒 GIAO DỊCH THÀNH CÔNG')
-            .setDescription(`Đã mua thành công **${amount}x ${item.name}**\nTổng giá: **${totalCost} ${currencyEmoji} ${currencyName}**`)
+            .setDescription(`Đã mua thành công **${amount}x ${item.name}**\nTổng giá: **${formatNumber(totalCost)} ${currencyEmoji} ${currencyName}**`)
             .setColor(0x00FF00) // Green
             .setTimestamp();
         await replyFunc({ embeds: [embed] });

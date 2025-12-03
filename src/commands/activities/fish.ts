@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const COOLDOWNS = new Set<string>();
 const WARNINGS = new Set<string>();
@@ -65,7 +66,7 @@ async function fishLogic(userId: string, replyFunc: (content: any) => Promise<an
         const fish = fishNames[Math.floor(Math.random() * fishNames.length)];
 
         embed.setTitle('🎣 CÂU CÁ THÀNH CÔNG')
-            .setDescription(`Bạn đã câu được một con **${fish}**!\nBán được **${amount.toLocaleString()} ${currencyEmoji} ${currencyName}**.${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
+            .setDescription(`Bạn đã câu được một con **${fish}**!\nBán được **${formatNumber(amount)} ${currencyEmoji} ${currencyName}**.${multiplier > 1 ? `\n(Bonus Cảnh giới: x${multiplier})` : ''}`)
             .setColor(0x1E90FF); // DodgerBlue
     }
 

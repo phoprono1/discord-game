@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message, EmbedBuilder } from 'discord.js';
 import db from '../../db';
 import { UserData } from '../../types';
+import { formatNumber } from '../../utils';
 
 const cooldowns = new Map<string, number>();
 
@@ -51,7 +52,7 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('👹 GẶP YÊU THÚ!')
             .setDescription('Bạn vô tình đi lạc vào hang ổ Yêu Thú. May mắn chạy thoát nhưng kinh hồn bạt vía.')
             .setColor(0xFF0000) // Red
-            .addFields({ name: 'Hậu quả', value: `-${expLoss.toLocaleString()} EXP`, inline: true });
+            .addFields({ name: 'Hậu quả', value: `-${formatNumber(expLoss)} EXP`, inline: true });
 
     } else if (chance < 0.30) {
         // BAD EVENT: Robbed (Lose Money)
@@ -80,7 +81,7 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('💸 GẶP CƯỚP ĐƯỜNG!')
             .setDescription('Một toán cướp chặn đường trấn lột. "Của đi thay người"!')
             .setColor(0xFF0000) // Red
-            .addFields({ name: 'Mất', value: `-${moneyLoss.toLocaleString()} ${currencyName}`, inline: true });
+            .addFields({ name: 'Mất', value: `-${formatNumber(moneyLoss)} ${currencyName}`, inline: true });
 
     } else if (chance < 0.45) {
         // NEUTRAL: Nothing
@@ -98,7 +99,7 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('💰 NHẶT ĐƯỢC CỦA RƠI')
             .setDescription('Bạn tình cờ nhặt được một túi tiền ai đó đánh rơi.')
             .setColor(0x00FF00) // Green
-            .addFields({ name: 'Nhận được', value: `+${moneyGain.toLocaleString()} ${currencyName}`, inline: true });
+            .addFields({ name: 'Nhận được', value: `+${formatNumber(moneyGain)} ${currencyName}`, inline: true });
 
     } else if (chance < 0.95) {
         // GOOD EVENT: Absorb Essence (EXP)
@@ -109,7 +110,7 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
         embed.setTitle('✨ HẤP THỤ LINH KHÍ')
             .setDescription('Bạn tìm thấy một vùng đất linh khí dồi dào, tu vi tăng tiến.')
             .setColor(0x00FF00) // Green
-            .addFields({ name: 'Tu vi tăng', value: `+${expGain.toLocaleString()} EXP`, inline: true });
+            .addFields({ name: 'Tu vi tăng', value: `+${formatNumber(expGain)} EXP`, inline: true });
 
     } else {
         // RARE EVENT: Treasure (Money + EXP)
@@ -125,8 +126,8 @@ async function exploreLogic(userId: string, replyFunc: (content: any) => Promise
             .setDescription('Vận may tề thiên! Bạn tìm thấy một hang động cổ xưa chứa đầy châu báu và bí kíp.')
             .setColor(0xFFD700) // Gold
             .addFields(
-                { name: 'Tài sản', value: `+${moneyGain.toLocaleString()} ${currencyName}`, inline: true },
-                { name: 'Tu vi', value: `+${expGain.toLocaleString()} EXP`, inline: true }
+                { name: 'Tài sản', value: `+${formatNumber(moneyGain)} ${currencyName}`, inline: true },
+                { name: 'Tu vi', value: `+${formatNumber(expGain)} EXP`, inline: true }
             );
     }
 
