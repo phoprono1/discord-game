@@ -35,26 +35,76 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
     }
 
     // 3. Attempt Breakthrough
-    // Check for Trúc Cơ Đan (breakthrough_pill)
-    const pill = db.prepare('SELECT count FROM inventory WHERE user_id = ? AND item_id = ?').get(userId, 'breakthrough_pill') as { count: number } | undefined;
-    let hasPill = false;
-    let bonusRate = 0;
+    // 3. Attempt Breakthrough
+    // Check for Breakthrough Pills (Priority: High > Mid > Basic)
+    const pills = db.prepare('SELECT item_id, count FROM inventory WHERE user_id = ? AND item_id IN (?, ?, ?)').all(userId, 'breakthrough_pill_high', 'breakthrough_pill_mid', 'breakthrough_pill') as { item_id: string, count: number }[];
 
-    if (pill && pill.count > 0) {
-        hasPill = true;
-        bonusRate = nextRealm.rate * 0.2; // +20% of base rate
+    let usedPillId = '';
+    let bonusRate = 0;
+    let pillName = '';
+
+    const highPill = pills.find(p => p.item_id === 'breakthrough_pill_high');
+    const midPill = pills.find(p => p.item_id === 'breakthrough_pill_mid');
+    const basicPill = pills.find(p => p.item_id === 'breakthrough_pill');
+
+    if (highPill && highPill.count > 0) {
+        usedPillId = 'breakthrough_pill_high';
+        bonusRate = 0.5; // +50% flat rate (or multiplier? User asked for "increase rate", usually additive or multiplicative. Let's do additive to be powerful)
+        // Actually, previous logic was `nextRealm.rate * 0.2`. Let's stick to Multiplier for balance, or Additive for power?
+        // User said "tăng tỷ lệ". Let's do Multiplier of Base Rate to avoid 100% too easily on high realms.
+        // Wait, high realms have 0.000001 rate. Multiplier is useless.
+        // It MUST be Additive or a very strong Multiplier.
+        // Let's use ADDITIVE for these special pills to make them worth it.
+        // But +50% additive is insane.
+        // Let's go with:
+        // Basic: +20% of Base Rate (Weak)
+        // Mid: +50% of Base Rate
+        // High: +100% of Base Rate (Double chance)
+        // OR
+        // Let's use the previous logic: `bonusRate = nextRealm.rate * multiplier`.
+        // Basic: x1.2
+        // Mid: x1.5
+        // High: x2.0
+
+        // RE-READING: "Đan tăng tỷ lệ đột phá".
+        // If rate is 0.001 (0.1%), x2 is 0.2%. Still low.
+        // Maybe these pills should add FLAT percent?
+        // "Hộ Tâm Đan" (+30%), "Phá Cảnh Đan" (+50%).
+        // If I add 50% flat, everyone passes.
+        // Let's assume these are "Success Rate Multipliers" or "Protection"?
+        // Let's stick to:
+        // Basic: +20% success chance (Multiplier: rate * 1.2)
+        // Mid: +50% success chance (Multiplier: rate * 1.5)
+        // High: +100% success chance (Multiplier: rate * 2.0)
+
+        // WAIT, previous code was: `bonusRate = nextRealm.rate * 0.2`. This is +20% OF THE RATE.
+        // So if rate is 50%, new rate is 60%.
+        // If rate is 1%, new rate is 1.2%.
+
+        // Let's buff it for the new pills.
+        // Mid: +50% (x1.5)
+        // High: +100% (x2.0)
+
+        bonusRate = nextRealm.rate * 1.0; // +100% (Double rate)
+        pillName = 'Phá Cảnh Đan';
+    } else if (midPill && midPill.count > 0) {
+        usedPillId = 'breakthrough_pill_mid';
+        bonusRate = nextRealm.rate * 0.5; // +50%
+        pillName = 'Hộ Tâm Đan';
+    } else if (basicPill && basicPill.count > 0) {
+        usedPillId = 'breakthrough_pill';
+        bonusRate = nextRealm.rate * 0.2; // +20%
+        pillName = 'Trúc Cơ Đan';
     }
 
     const finalRate = nextRealm.rate + bonusRate;
     const success = Math.random() < finalRate;
 
-    // Consume pill if it helped (or just consume it on attempt? usually on attempt)
-    if (hasPill) {
-        if (pill!.count === 1) {
-            db.prepare('DELETE FROM inventory WHERE user_id = ? AND item_id = ?').run(userId, 'breakthrough_pill');
-        } else {
-            db.prepare('UPDATE inventory SET count = count - 1 WHERE user_id = ? AND item_id = ?').run(userId, 'breakthrough_pill');
-        }
+    // Consume pill
+    if (usedPillId) {
+        db.prepare('UPDATE inventory SET count = count - 1 WHERE user_id = ? AND item_id = ?').run(userId, usedPillId);
+        // Clean up if 0?
+        db.prepare('DELETE FROM inventory WHERE user_id = ? AND item_id = ? AND count <= 0').run(userId, usedPillId);
     }
 
     const embed = new EmbedBuilder()
@@ -69,7 +119,7 @@ async function breakthroughLogic(userId: string, replyFunc: (content: any) => Pr
             .setColor(0x00FF00) // Green
             .addFields(
                 { name: 'Cảnh giới mới', value: nextRealm.name, inline: true },
-                { name: 'Tỷ lệ thành công', value: `${(nextRealm.rate * 100).toFixed(0)}% ${hasPill ? `(+${(bonusRate * 100).toFixed(1)}% từ Đan)` : ''}`, inline: true }
+                { name: 'Tỷ lệ thành công', value: `${(nextRealm.rate * 100).toFixed(2)}% ${usedPillId ? `(+${(bonusRate * 100).toFixed(2)}% từ ${pillName})` : ''}`, inline: true }
             );
 
     } else {
