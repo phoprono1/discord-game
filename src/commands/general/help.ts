@@ -43,6 +43,11 @@ async function helpLogic(replyFunc: (content: any) => Promise<any>) {
                 name: '⚙️ Khác',
                 value: '`!hotro` (!help): Xem bảng này\n`!ping`: Kiểm tra độ trễ',
                 inline: false
+            },
+            {
+                name: '🛡️ Admin',
+                value: '`!config`: Cài đặt\n`!trungphat` (!punish): Trừng phạt\n`!them` (!add): Thêm tài nguyên\n`!admin-shop`: Quản lý Shop\n`!check-cd`: Kiểm tra cooldown',
+                inline: false
             }
         )
         .setFooter({ text: 'Chúc đạo hữu tu luyện vui vẻ!' });

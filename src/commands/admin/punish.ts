@@ -21,10 +21,16 @@ async function punishLogic(
     let targets: UserData[] = [];
 
     if (targetInput === 'all') {
-        // Get all users EXCEPT the executor (admin)
-        targets = db.prepare('SELECT * FROM users WHERE id != ?').all(executorId) as UserData[];
+        // Get all users EXCEPT the first admin (Owner)
+        const allUsers = db.prepare('SELECT * FROM users').all() as UserData[];
+        targets = allUsers.filter(u => u.id !== ADMIN_IDS[0]);
     } else {
         // Specific user
+        if (targetInput === ADMIN_IDS[0]) {
+            await replyFunc('🛡️ **Bất khả xâm phạm!** Không thể trừng phạt Thiên Đạo Tối Cao (Owner).');
+            return;
+        }
+
         const user = db.prepare('SELECT * FROM users WHERE id = ?').get(targetInput) as UserData;
         if (user) {
             targets.push(user);
