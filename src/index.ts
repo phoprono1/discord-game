@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { Command } from './types';
+import { checkCaptcha, isJailed } from './captcha';
 
 dotenv.config();
 
@@ -77,6 +78,38 @@ extendedClient.on('interactionCreate', async interaction => {
     }
 
     try {
+        // Anti-Cheat Check
+        const jailStatus = isJailed(interaction.user.id);
+        if (jailStatus.jailed) {
+            await interaction.reply({ content: `🚫 **Bạn đang ở trong tù!**\nThời gian được thả: <t:${Math.floor(jailStatus.until / 1000)}:R>`, flags: MessageFlags.Ephemeral });
+            return;
+        }
+
+        // Only check captcha for farming commands (mine, fish, hunt, cultivate...)
+        const farmingCommands = ['mine', 'fish', 'hunt', 'cultivate', 'breakthrough', 'explore'];
+        if (farmingCommands.includes(interaction.commandName)) {
+            const passed = await checkCaptcha(interaction.user.id, async (data) => {
+                // For interaction, we need to reply regular (public) for captcha so they see it
+                // But wait, if we reply, we can't execute command reply.
+                // Actually, we should return the response object.
+                // Since we haven't replied yet, we can use interaction.reply
+                // Captcha needs to be blocking.
+                return await interaction.reply({ ...data, fetchReply: true });
+            }, extendedClient);
+
+            if (!passed) return; // Stop if failed/timeout/jailed
+
+            // If passed, we need to handle the fact that we already replied "Captcha Success".
+            // The original command might try to reply again, which throws error.
+            // We need to tell the command to use followUp or editReply?
+            // Or, simpler: Just return and ask user to re-run command?
+            // "Verification Success! Please run the command again." - Safest way to avoid "Interaction already acknowledged" errors.
+            if (interaction.replied) {
+                await interaction.followUp({ content: '✅ Đã xác thực! Hãy nhập lại lệnh.', flags: MessageFlags.Ephemeral });
+                return;
+            }
+        }
+
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
@@ -132,6 +165,23 @@ extendedClient.on('messageCreate', async (message: Message) => {
     if (!command || !command.run) return;
 
     try {
+        const jailStatus = isJailed(message.author.id);
+        if (jailStatus.jailed) {
+            await message.reply(`🚫 **Bạn đang ở trong tù!**\nThời gian được thả: <t:${Math.floor(jailStatus.until / 1000)}:R>`);
+            return;
+        }
+
+        // Only check captcha for farming commands
+        // We can check command name or aliases
+        const farmingCommands = ['mine', 'daokhoang', 'fish', 'cauca', 'san', 'hunt', 'tu', 'cultivate', 'dp', 'dotpha', 'kp', 'khampha'];
+        if (farmingCommands.includes(commandName) || (command.aliases && command.aliases.some(a => farmingCommands.includes(a)))) {
+            const passed = await checkCaptcha(message.author.id, async (data) => await message.reply(data), extendedClient);
+            if (!passed) return;
+            // If passed, message flow is continuous, we can just run the command?
+            // Captcha function edits its own message to say "Success".
+            // We can proceed.
+        }
+
         await command.run(message, args);
     } catch (error) {
         console.error(error);

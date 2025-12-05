@@ -7,7 +7,8 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     balance INTEGER DEFAULT 0,
-    bank INTEGER DEFAULT 0
+    bank INTEGER DEFAULT 0,
+    jail_until INTEGER DEFAULT 0
   );
   
   CREATE TABLE IF NOT EXISTS inventory (
@@ -50,6 +51,12 @@ try {
   if (!hasRealm) {
     db.prepare("ALTER TABLE users ADD COLUMN realm INTEGER DEFAULT 0").run();
     console.log("Added 'realm' column to users table.");
+  }
+
+  const hasJail = tableInfo.some(col => col.name === 'jail_until');
+  if (!hasJail) {
+    db.prepare("ALTER TABLE users ADD COLUMN jail_until INTEGER DEFAULT 0").run();
+    console.log("Added 'jail_until' column to users table.");
   }
 
   // Seed Shop Items
